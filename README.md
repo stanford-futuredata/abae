@@ -1,4 +1,4 @@
-# Accelerating Approximate Aggregation Queries with Expensive
+# Accelerating Approximate Aggregation Queries with Expensive Predicates (ABAE)
 
 This is the official project page for "Accelerating Approximate Aggregation Queries with Expensive Predicates"
 
