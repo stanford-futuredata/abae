@@ -6,7 +6,7 @@ Please read the [paper](https://arxiv.org/abs/2009.04540) for full technical det
 
 # Requirements
 
-Install the requirements with `pip install -r requirements.txt`. Then run `pip install -e ` inside the repo to install the `abae` python package.
+Install the requirements with `pip install ray scipy mystic numpy pandas tabulate`. Then run `pip install -e ` inside the repo to install the `abae` python package.
 
 # Reproducing Experiments
 
