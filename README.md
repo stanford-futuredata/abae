@@ -2,7 +2,7 @@
 
 This is the official project page for "Accelerating Approximate Aggregation Queries with Expensive Predicates"
 
-Please read the [paper](https://arxiv.org/abs/2009.04540) for full technical details.
+Please read the [paper](https://google.com) for full technical details.
 
 # Requirements
 
