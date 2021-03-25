@@ -6,7 +6,7 @@ Please read the [paper](https://google.com) for full technical details.
 
 # Requirements
 
-Install the requirements with `pip install ray scipy mystic numpy pandas tabulate`. Then run `pip install -e ` inside the repo to install the `abae` python package.
+Install the requirements with `pip install ray scipy mystic numpy pandas tabulate tqdm matplotlib`. Then run `pip install -e ` inside the repo to install the `abae` python package.
 
 # Reproducing Experiments
 

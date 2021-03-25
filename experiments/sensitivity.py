@@ -8,16 +8,16 @@ from tqdm.autonotebook import tqdm
 ray.init()
 K = 5
 C = 1/2
-N = 10000
+N = 5000
 TRIALS = 1000
 
 dbs = [
-    abae.JacksonRecords(k=K),
-    abae.TaipeiRecords(k=K),
-    abae.CelebARecords(k=K),
-    abae.MovieFacesV2Records(k=K),
-    abae.Trec05PRecords(k=K),
-    abae.AmazonOfficeSuppliesRecords(k=K)
+    abae.JacksonRecords,
+    abae.TaipeiRecords,
+    abae.CelebARecords,
+    abae.MovieFacesV2Records,
+    abae.Trec05PRecords,
+    abae.AmazonOfficeSuppliesRecords
 ]
 
 for dbx in tqdm(dbs):
