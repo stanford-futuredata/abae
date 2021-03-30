@@ -4,13 +4,15 @@ import mystic as my
 import pandas as pd
 from tabulate import tabulate
 import matplotlib.pyplot as plt
+import abae
 ray.init(ignore_reinit_error=True)
 
+HOME = abae.data.HOME
 
-blond = np.load("data/celeba-blond.npy", allow_pickle=True).item()
-brown = np.load("data/celeba-brown.npy", allow_pickle=True).item()
-black = np.load("data/celeba-black.npy", allow_pickle=True).item()
-gray = np.load("data/celeba-gray.npy", allow_pickle=True).item()
+blond = np.load(HOME + "celeba-blond.npy", allow_pickle=True).item()
+brown = np.load(HOME + "celeba-brown.npy", allow_pickle=True).item()
+black = np.load(HOME + "celeba-black.npy", allow_pickle=True).item()
+gray = np.load(HOME + "celeba-gray.npy", allow_pickle=True).item()
 
 blond_paths = [path.split("/")[-1] for path in blond["paths"]]
 brown_paths = [path.split("/")[-1] for path in brown["paths"]]
@@ -22,7 +24,7 @@ brown_sort = np.argsort(brown_paths)
 black_sort = np.argsort(black_paths)
 gray_sort = np.argsort(gray_paths)
 
-fp = "/future/u/jtguibas/aggpred/datasets/list_attr_celeba.txt"
+fp = HOME + "list_attr_celeba.txt"
 df = pd.read_csv(fp, delim_whitespace=True, header=1)
 smiling_statistics = df["Smiling"].replace(-1, 0).to_numpy()
 

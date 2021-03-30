@@ -1,7 +1,7 @@
 import ray
 import pandas as pd
 import scipy.optimize
-import aggpred as ap
+import abae
 import numpy as np
 from tqdm.autonotebook import tqdm
 from tabulate import tabulate
@@ -11,11 +11,12 @@ K = 5
 C = 1/2
 TRIALS = 1000
 
+HOME = abae.data.HOME
 
-blond = np.load("data/celeba-blond.npy", allow_pickle=True).item()
-brown = np.load("data/celeba-brown.npy", allow_pickle=True).item()
-black = np.load("data/celeba-black.npy", allow_pickle=True).item()
-gray = np.load("data/celeba-gray.npy", allow_pickle=True).item()
+blond = np.load(HOME + "celeba-blond.npy", allow_pickle=True).item()
+brown = np.load(HOME + "celeba-brown.npy", allow_pickle=True).item()
+black = np.load(HOME + "celeba-black.npy", allow_pickle=True).item()
+gray = np.load(HOME + "celeba-gray.npy", allow_pickle=True).item()
 
 blond_paths = [path.split("/")[-1] for path in blond["paths"]]
 brown_paths = [path.split("/")[-1] for path in brown["paths"]]
@@ -27,12 +28,12 @@ brown_sort = np.argsort(brown_paths)
 black_sort = np.argsort(black_paths)
 gray_sort = np.argsort(gray_paths)
 
-fp = "/future/u/jtguibas/aggpred/datasets/list_attr_celeba.txt"
+fp = HOME + "list_attr_celeba.txt"
 df = pd.read_csv(fp, delim_whitespace=True, header=1)
 smiling_statistics = df["Smiling"].replace(-1, 0).to_numpy()
 
 
-db_gray = ap.Records(5,
+db_gray = abae.Records(5,
     gray["proxy_scores"][gray_sort][:, 0],
     smiling_statistics,
     np.array(gray["predicates"])[gray_sort],
@@ -40,7 +41,7 @@ db_gray = ap.Records(5,
 print("GRAY")
 db_gray.summary()
 
-db_blond = ap.Records(5,
+db_blond = abae.Records(5,
     blond["proxy_scores"][blond_sort][:, 0],
     smiling_statistics,
     np.array(blond["predicates"])[blond_sort],
@@ -48,7 +49,7 @@ db_blond = ap.Records(5,
 print("\nBLOND")
 db_blond.summary()
 
-db_black = ap.Records(5,
+db_black = abae.Records(5,
     black["proxy_scores"][black_sort][:, 0],
     smiling_statistics,
     np.array(black["predicates"])[black_sort],
@@ -56,7 +57,7 @@ db_black = ap.Records(5,
 print("\nBLACK")
 db_black.summary()
 
-db_brown = ap.Records(5,
+db_brown = abae.Records(5,
     brown["proxy_scores"][brown_sort][:, 0],
     smiling_statistics,
     np.array(brown["predicates"])[brown_sort],
@@ -76,9 +77,9 @@ ours1 = [None]*len(ns)
 ours2 = [None]*len(ns)
 ours3 = [None]*len(ns)
 for idx, (n1, n2) in enumerate(zip(n1s, n2s)):
-    ours1[idx] = ap.execute_group_by_ours_v2.remote(dbs, n1, n2, trials=TRIALS, version="optimal")
-    ours2[idx] = ap.execute_group_by_ours_v2.remote(dbs, n1, n2, trials=TRIALS, version="troll")
-    ours3[idx] = ap.execute_group_by_uniform_v2.remote(dbs, n1, n2, trials=TRIALS)
+    ours1[idx] = abae.execute_group_by_ours_v2.remote(dbs, n1, n2, trials=TRIALS, version="optimal")
+    ours2[idx] = abae.execute_group_by_ours_v2.remote(dbs, n1, n2, trials=TRIALS, version="troll")
+    ours3[idx] = abae.execute_group_by_uniform_v2.remote(dbs, n1, n2, trials=TRIALS)
 ours1 = np.array(ray.get(ours1))
 ours2 = np.array(ray.get(ours2))
 ours3 = np.array(ray.get(ours3))
@@ -134,10 +135,10 @@ for i in range(N):
         g = np.random.choice(np.arange(0, G), p=dist)
         predicates[g, i] = True
     
-db1 = ap.Records(K, proxy_scores[0], statistics, predicates[0])
-db2 = ap.Records(K, proxy_scores[1], statistics, predicates[1])
-db3 = ap.Records(K, proxy_scores[2], statistics, predicates[2])
-db4 = ap.Records(K, proxy_scores[3], statistics, predicates[3])
+db1 = abae.Records(K, proxy_scores[0], statistics, predicates[0])
+db2 = abae.Records(K, proxy_scores[1], statistics, predicates[1])
+db3 = abae.Records(K, proxy_scores[2], statistics, predicates[2])
+db4 = abae.Records(K, proxy_scores[3], statistics, predicates[3])
 
 
 db1.summary()
@@ -157,9 +158,9 @@ ours1 = [None]*len(ns)
 ours2 = [None]*len(ns)
 ours3 = [None]*len(ns)
 for idx, (n1, n2) in enumerate(zip(n1s, n2s)):
-    ours1[idx] = ap.execute_group_by_ours_v2.remote(dbs, n1, n2, trials=TRIALS, version="optimal")
-    ours2[idx] = ap.execute_group_by_ours_v2.remote(dbs, n1, n2, trials=TRIALS, version="troll")
-    ours3[idx] = ap.execute_group_by_uniform_v2.remote(dbs, n1, n2, trials=TRIALS)
+    ours1[idx] = abae.execute_group_by_ours_v2.remote(dbs, n1, n2, trials=TRIALS, version="optimal")
+    ours2[idx] = abae.execute_group_by_ours_v2.remote(dbs, n1, n2, trials=TRIALS, version="troll")
+    ours3[idx] = abae.execute_group_by_uniform_v2.remote(dbs, n1, n2, trials=TRIALS)
 ours1 = np.array(ray.get(ours1))
 ours2 = np.array(ray.get(ours2))
 ours3 = np.array(ray.get(ours3))
