@@ -10,4 +10,4 @@ Install the requirements with `pip install ray scipy mystic numpy pandas tabulat
 
 # Reproducing Experiments
 
-Run `bash make_directories.sh`. Then run any corresponding  `.py` file in to reproduce experiments in the paper.
+Run `bash make_directories.sh`. Then run any corresponding  `.py` file in to reproduce experiments in the paper. Note that we have precomputed all the oracle labels.
